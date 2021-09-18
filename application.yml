@@ -1,0 +1,19 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: first-vela-workflow
+  namespace: default
+spec:
+  components:
+    - name: test-server
+      type: webservice
+      properties:
+        # 在创建完自动部署文件后，将 `default:gitops` 替换为其 namespace 和 name
+        image: docker.io/centos:centos7 # {"$imagepolicy": "default:gitops"}
+        port: 8088
+      traits:
+        - type: ingress
+          properties:
+            domain: testsvc.example.com
+            http:
+              /: 8088
